@@ -1,6 +1,7 @@
 ﻿using SportManager.Application.Common.Interfaces;
 using SportManager.Application.Customer.Models;
 using SportManager.Application.Products.Models;
+using SportManager.Application.Products.Queries;
 
 namespace SportManager.Application.Products.Quries;
 
@@ -79,7 +80,7 @@ public class GetProductByIdQueryHandler(IReadOnlyApplicationDbContext dbContext)
                 Name = product.Brand.Name
             },
 
-            Supplier = product.Supplier == null ? null : new SupplierView
+            Supplier = product.Supplier == null ? null : new Queries.SupplierView
             {
                 Id = product.Supplier.Id,
                 Name = product.Supplier.Name,

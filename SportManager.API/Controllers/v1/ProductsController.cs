@@ -12,6 +12,7 @@ using SportManager.Application.Products.Commands.Update;
 using SportManager.Application.Products.Quries;
 using SportManager.Application.Products.Models;
 using SportManager.Application.ProductReviews.Commands;
+using SportManager.Application.Products.Queries;
 
 namespace SportManager.API.Controllers.v1;
 
