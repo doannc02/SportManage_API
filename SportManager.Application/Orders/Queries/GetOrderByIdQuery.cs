@@ -58,8 +58,16 @@ public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, Order
             SubTotal = order.CalculateSubTotal(),
             DiscountAmount = order.DiscountAmount,
             Total = order.CalculateSubTotal() - order.DiscountAmount,
-            VoucherCode = order.Voucher?.Code,
-            ShippingAddress = shippingAddressDto,
+            VoucherCode = order.Voucher != null ? order.Voucher?.Code : null,
+            ShippingAddress = shippingAddress != null
+            ? new ShippingAddressViewOrder
+            {
+                AddressDetail = $"{shippingAddress.Ward}, {shippingAddress.District}, " +
+                              $"{shippingAddress.City}, {shippingAddress.Country}",
+                Phone = shippingAddress.Phone,
+                ReceiveName = shippingAddress.RecipientName
+            }
+            : null,
             OrderItems = order.OrderItems.Select(item => new OrderItemDto
             {
                 Id = item.Id,

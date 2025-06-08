@@ -6,53 +6,60 @@ using SportManager.Domain.Entity;
 
 namespace SportManager.Application.Categories.Commands.Create;
 
-public class CreateCategoryCommand : CategoryDto, IRequest<CreateCategoryResponse>
+// Update the command to accept multiple categories
+public class CreateCategoryCommand : IRequest<CreateCategoryResponse>
 {
+    public List<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
 }
 
+// Update the response to return multiple IDs
 public class CreateCategoryResponse
 {
-    public Guid Id { get; set; }
+    public List<Guid> Ids { get; set; } = new List<Guid>();
+    public List<string> Errors { get; set; } = new List<string>();
 }
 public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, CreateCategoryResponse>
 {
     private readonly IApplicationDbContext _dbContext;
-    private readonly IAuthService _passwordHasher;
 
-    public CreateCategoryCommandHandler(IApplicationDbContext dbContext, IAuthService passwordHasher)
+    public CreateCategoryCommandHandler(IApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
-        _passwordHasher = passwordHasher;
     }
 
     public async Task<CreateCategoryResponse> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        var response = new CreateCategoryResponse();
 
-        var existingUser = await _dbContext.Categories
-            .Where(u => u.Name.ToLower() == request.Name.ToLower())
-            .Select(u => new { u.Name })
-            .FirstOrDefaultAsync(cancellationToken);
+        // Check for duplicates first
+        var existingNames = await _dbContext.Categories
+            .Select(c => c.Name.ToLower())
+            .ToListAsync(cancellationToken);
 
-        if (existingUser != null)
+        var duplicateNames = request.Categories
+            .Select(c => c.Name.ToLower())
+            .Intersect(existingNames)
+            .ToList();
+
+        if (duplicateNames.Any())
         {
-            if (existingUser.Name.Equals(request.Name, StringComparison.OrdinalIgnoreCase))
-                throw new ApplicationException("DUPLICATE_NAME");
-
+            throw new ApplicationException($"Duplicate category names: {string.Join(", ", duplicateNames)}");
         }
 
-  
-        var user = new Domain.Entity.Category
+        // All names are unique, proceed with creation
+        var categoriesToAdd = request.Categories.Select(categoryDto => new Domain.Entity.Category
         {
-           Name = request.Name,
-           Description = request.Description,
-           Logo = request.Logo,
-        };
+            Name = categoryDto.Name,
+            Description = categoryDto.Description,
+            Logo = categoryDto.Logo,
+        }).ToList();
 
-        _dbContext.Categories.Add(user);
+        await _dbContext.Categories.AddRangeAsync(categoriesToAdd, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        return new CreateCategoryResponse { Id = user.Id };
 
+        response.Ids.AddRange(categoriesToAdd.Select(c => c.Id));
+        return response;
     }
 }
 

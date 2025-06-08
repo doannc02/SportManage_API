@@ -78,7 +78,7 @@ public class GetOrdersWithPaginationQueryHandler : IRequestHandler<GetOrdersWith
             SubTotal = o.CalculateSubTotal(),
             DiscountAmount = o.DiscountAmount,
             Total = o.CalculateSubTotal() - o.DiscountAmount,
-            VoucherCode = o.Voucher.Code,
+            VoucherCode = o.Voucher != null ? o.Voucher.Code : null,
             OrderItems = o.OrderItems.Select(item => new OrderItemDto
             {
                 Id = item.Id,
