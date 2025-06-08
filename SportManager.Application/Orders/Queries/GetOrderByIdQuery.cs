@@ -22,6 +22,7 @@ public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, Order
         // Truy xuất đơn hàng trước
         var order = await _dbContext.Orders
             .Include(o => o.OrderItems)
+                .ThenInclude(o => o.ProductVariant)
             .Include(o => o.Voucher)
             .Include(o => o.Customer)
                 .ThenInclude(c => c.User)

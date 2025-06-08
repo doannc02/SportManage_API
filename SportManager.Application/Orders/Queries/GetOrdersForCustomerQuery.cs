@@ -40,6 +40,7 @@ public class GetCustomerOrdersQueryHandler : IRequestHandler<GetCustomerOrdersQu
 
         var query = _dbContext.Orders
             .Include(o => o.OrderItems)
+            .ThenInclude(oi => oi.ProductVariant)
             .Include(o => o.Voucher)
             .Where(o => o.CustomerId == Guid.Parse(customerId)) 
             .AsQueryable();

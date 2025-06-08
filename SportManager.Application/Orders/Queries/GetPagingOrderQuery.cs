@@ -30,6 +30,7 @@ public class GetOrdersWithPaginationQueryHandler : IRequestHandler<GetOrdersWith
     {
         var query = _dbContext.Orders
             .Include(o => o.OrderItems)
+            .ThenInclude(oi => oi.ProductVariant)
             .Include(o => o.Voucher)
             .Include(o => o.Customer)
                 .ThenInclude(c => c.User)
