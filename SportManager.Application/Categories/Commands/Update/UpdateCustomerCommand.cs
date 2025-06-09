@@ -38,7 +38,10 @@ public class UpdateCategoryCommandHandler(IApplicationDbContext applicationDbCon
         //customer.User.Email = request.Email;
         //customer.User.Username = request.UserName;
 
-        
+        customer.Logo = request.Logo;
+        customer.Name = request.Name;
+        customer.Description = request.Description;
+
         applicationDbContext.Categories.Update(customer);
         await applicationDbContext.SaveChangesAsync(cancellationToken);
 

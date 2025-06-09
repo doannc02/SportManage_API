@@ -1,8 +1,5 @@
-﻿using SportManager.Application.Abstractions;
-using SportManager.Application.Categroies.Models;
-using SportManager.Application.Common.Exception;
+﻿using SportManager.Application.Categroies.Models;
 using SportManager.Application.Common.Interfaces;
-using SportManager.Domain.Entity;
 
 namespace SportManager.Application.Categories.Commands.Create;
 
