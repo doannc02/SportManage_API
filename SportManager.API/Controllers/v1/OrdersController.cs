@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SportManager.Application.Common.Models;
+using SportManager.Application.Orders.Commands;
 using SportManager.Application.Orders.Models;
 using SportManager.Application.Orders.Queries;
 using SportManager.Domain.Entity;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace SportManager.API.Controllers.v1;
 
@@ -12,7 +12,7 @@ namespace SportManager.API.Controllers.v1;
 [ApiController]
 public class OrdersController : ApiControllerBase
 {
-    //[Authorize(Policy = "ADMIN")]
+    //[Authorize(Policy = "Admin")]
     [HttpPost]
     public async Task<Guid> Create(PlaceOrderCommand input, CancellationToken cancellationToken)
     {
@@ -21,9 +21,18 @@ public class OrdersController : ApiControllerBase
         return result;
     }
 
+    [HttpPut("{id}/status")]
+    [Authorize(Roles = "Admin,Shipper")]
+    public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromBody] UpdateOrderStatusCommand request)
+    {
+        var result = await Mediator.Send(request);
+        return Ok(result);
+    }
+
     //[Authorize(Policy = "Admin")]
     [AllowAnonymous]
     [HttpGet("admin-paging")]
+    [Authorize(Roles = "Admin,Shipper")]
     public async Task<PageResult<OrderDto>> GetOrders(
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 10,

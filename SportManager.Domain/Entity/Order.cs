@@ -34,6 +34,8 @@ public class Order : EntityBase<Guid>
     public DateTime? ShippedDate { get; set; } // Ngày shipper giao hàng
     public DateTime? DeliveredDate { get; set; } // Ngày khách hàng nhận được hàng (giao thành công)
     public DateTime? CanceledDate { get; set; } // Ngày hủy đơn hàng
+    public Guid? ShipperId { get; set; } // ID của shipper nếu có
+    public string? ImageConfirmed { get; set; } // Hình ảnh xác nhận đơn hàng, nếu có
 
     public DateTime? ExpectedDeliveryDate { get; set; }
 }

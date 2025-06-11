@@ -2,6 +2,7 @@
 using SportManager.Application.Common.Exception;
 using SportManager.Application.Common.Interfaces;
 using SportManager.Application.Orders.Models;
+using SportManager.Application.Utilities;
 using SportManager.Domain.Entity;
 
 namespace SportManager.Application.Orders.Queries;
