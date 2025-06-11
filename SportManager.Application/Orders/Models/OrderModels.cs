@@ -31,7 +31,7 @@ public class OrderDto
     public Guid CustomerId { get; set; }
     public string CustomerName { get; set; }
     public string? Notes { get; set; }
-    public string State { get; set; }
+    public StateOrder State { get; set; }
     public DateTime OrderDate { get; set; }
     public DateTime? ConfirmedDate { get; set; }
     public DateTime? PreparingDate { get; set; }

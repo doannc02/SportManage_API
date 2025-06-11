@@ -128,12 +128,14 @@ public class UpdateOrderStatusCommandHandler(
     {
         var validTransitions = new Dictionary<StateOrder, List<StateOrder>>()
         {
-            [StateOrder.Pending] = new() { StateOrder.Confirmed, StateOrder.Canceled },
+            [StateOrder.Pending] = new() { StateOrder.Confirmed, StateOrder.Canceled, StateOrder.Processing },
             [StateOrder.Confirmed] = new() { StateOrder.Processing, StateOrder.Canceled },
-            [StateOrder.Processing] = new() { StateOrder.Shipped, StateOrder.Canceled },
-            [StateOrder.Shipped] = new() { StateOrder.Delivered, StateOrder.Canceled },
-            [StateOrder.Delivered] = new() { },
-            [StateOrder.Canceled] = new() { },
+            [StateOrder.Processing] = new() { StateOrder.Confirmed, StateOrder.Shipped },
+            [StateOrder.Shipped] = new() { StateOrder.Delivered, StateOrder.Canceled, StateOrder.Returned }, // Có thể hủy hoặc hoàn hàng
+            [StateOrder.Delivered] = new() { StateOrder.Returned }, // Khách trả hàng
+            [StateOrder.Canceled] = new() { }, // End state
+            [StateOrder.Returned] = new() { StateOrder.Refunded }, // Sau khi hoàn hàng → hoàn tiền
+            [StateOrder.Refunded] = new() { }, // End state
             [StateOrder.Receivered] = new() { StateOrder.Pending },
             [StateOrder.Sendered] = new() { StateOrder.Pending }
         };

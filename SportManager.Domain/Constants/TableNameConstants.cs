@@ -22,6 +22,7 @@ public class TableNameConstants
     public const string CustomerSuportTicket = "customer_support_tictket";
     public const string TicketReply = "ticket_reply";
     public const string Customer = "customer";
+    public const string ShipperProfile = "shipper_profile";
     public const string RefreshToken = "refresh_token";
     public const string Conversation = "conversation";
     public const string ConversationParticipant = "conversation_participant";

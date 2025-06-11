@@ -50,4 +50,6 @@ public enum StateOrder
     Processing,     // Đang chuẩn bị hàng (tương ứng với "Đang chuẩn bị hàng" trên UI)
     Shipped,        // Đang giao hàng (tương ứng với "Đang giao hàng" trên UI)
     Delivered,      // Đã giao hàng (tương ứng với "Đã giao hàng" trên UI)
+    Returned,   // Đã hoàn hàng (hủy sau khi giao)
+    Refunded,   // Đã hoàn tiền
 }

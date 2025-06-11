@@ -46,7 +46,7 @@ public class OrdersController : ApiControllerBase
         {
             PageNumber = pageNumber,
             PageSize = pageSize,
-            SearchTerm = keyWord,
+            KeyWord = keyWord,
             State = state,
             FromDate = fromDate,
             ToDate = toDate,
@@ -71,7 +71,7 @@ public class OrdersController : ApiControllerBase
             PageNumber = pageNumber,
             PageSize = pageSize,
             State = state,
-            SearchTerm = keyWord,
+            KeyWord = keyWord,
             FromDate = fromDate,
             ToDate = toDate,
         };

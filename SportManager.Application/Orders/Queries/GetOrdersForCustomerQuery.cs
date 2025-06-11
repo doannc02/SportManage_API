@@ -9,9 +9,9 @@ namespace SportManager.Application.Orders.Queries;
 
 public class GetCustomerOrdersQuery : IRequest<PageResult<OrderDto>>
 {
-    public int PageNumber { get; set; } = 1;
+    public int PageNumber { get; set; } = 0;
     public int PageSize { get; set; } = 10;
-    public string? SearchTerm { get; set; }
+    public string? KeyWord { get; set; }
     public StateOrder? State { get; set; }
     public DateTime? FromDate { get; set; }
     public DateTime? ToDate { get; set; }
@@ -47,12 +47,12 @@ public class GetCustomerOrdersQueryHandler : IRequestHandler<GetCustomerOrdersQu
             .Where(o => o.CustomerId == Guid.Parse(customerId)) 
             .AsQueryable();
 
-        if (!string.IsNullOrEmpty(request.SearchTerm))
+        if (!string.IsNullOrEmpty(request.KeyWord))
         {
             query = query.Where(o =>
-                o.Customer.User.Username.Contains(request.SearchTerm) ||
-                o.Id.ToString().Contains(request.SearchTerm) ||
-                o.Voucher.Code.Contains(request.SearchTerm));
+                o.Customer.User.Username.Contains(request.KeyWord) ||
+                o.Id.ToString().Contains(request.KeyWord) ||
+                o.Voucher.Code.Contains(request.KeyWord));
         }
 
         // Các điều kiện lọc khác
@@ -79,7 +79,7 @@ public class GetCustomerOrdersQueryHandler : IRequestHandler<GetCustomerOrdersQu
             CustomerId = o.CustomerId,
             CustomerName = o.Customer.User.Username,
             OrderDate = o.OrderDate,
-            State = o.State.ToString(),
+            State = o.State,
             Notes = o.Notes,
             SubTotal = o.CalculateSubTotal(),
             CanceledDate = o.CanceledDate,
@@ -112,7 +112,7 @@ public class GetCustomerOrdersQueryHandler : IRequestHandler<GetCustomerOrdersQu
         // Thực hiện phân trang
         var result = await PageResult<OrderDto>.CreateAsync(
             orderDtoQuery,
-            request.PageNumber - 1, // Trừ 1 vì pageNumber thường bắt đầu từ 1 trên UI
+            request.PageNumber, // Trừ 1 vì pageNumber thường bắt đầu từ 1 trên UI
             request.PageSize,
             cancellationToken);
 

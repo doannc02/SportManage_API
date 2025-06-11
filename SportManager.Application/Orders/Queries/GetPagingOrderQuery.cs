@@ -10,7 +10,7 @@ public class GetOrdersWithPaginationQuery : IRequest<PageResult<OrderDto>>
 {
     public int PageNumber { get; set; } = 1;
     public int PageSize { get; set; } = 10;
-    public string? SearchTerm { get; set; }
+    public string? KeyWord { get; set; }
     public StateOrder? State { get; set; }
     public DateTime? FromDate { get; set; }
     public DateTime? ToDate { get; set; }
@@ -41,12 +41,12 @@ public class GetOrdersWithPaginationQueryHandler : IRequestHandler<GetOrdersWith
             query = query.Where(o => o.CustomerId == Guid.Parse(request.CustomerId));
         }
         // Áp dụng các điều kiện lọc
-        if (!string.IsNullOrEmpty(request.SearchTerm))
+        if (!string.IsNullOrEmpty(request.KeyWord))
         {
             query = query.Where(o =>
-                o.Customer.User.Username.Contains(request.SearchTerm) ||
-                o.Id.ToString().Contains(request.SearchTerm) ||
-                o.Voucher.Code.Contains(request.SearchTerm));
+                o.Customer.User.Username.Contains(request.KeyWord) ||
+                o.Id.ToString().Contains(request.KeyWord) ||
+                o.Voucher.Code.Contains(request.KeyWord));
         }
 
         if (request.State.HasValue)
@@ -74,7 +74,7 @@ public class GetOrdersWithPaginationQueryHandler : IRequestHandler<GetOrdersWith
             CustomerId = o.CustomerId,
             CustomerName = o.Customer.User.Username,
             OrderDate = o.OrderDate,
-            State = o.State.ToString(),
+            State = o.State,
             Notes = o.Notes,
             SubTotal = o.CalculateSubTotal(),
             DiscountAmount = o.DiscountAmount,
@@ -94,7 +94,7 @@ public class GetOrdersWithPaginationQueryHandler : IRequestHandler<GetOrdersWith
         // Thực hiện phân trang
         var result = await PageResult<OrderDto>.CreateAsync(
             orderDtoQuery,
-            request.PageNumber - 1, // Trừ 1 vì pageNumber thường bắt đầu từ 1 trên UI
+            request.PageNumber,
             request.PageSize,
             cancellationToken);
 

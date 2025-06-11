@@ -55,7 +55,7 @@ public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, Order
             CustomerId = order.CustomerId,
             CustomerName = order.Customer.User.Username,
             OrderDate = order.OrderDate,
-            State = order.State.ToString(),
+            State = order.State,
             CanceledDate = order.CanceledDate,
             ConfirmedDate = order.ConfirmedDate,
             DeliveredDate = order.DeliveredDate,
