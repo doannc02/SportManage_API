@@ -33,12 +33,27 @@ public class OrderDto
     public string? Notes { get; set; }
     public string State { get; set; }
     public DateTime OrderDate { get; set; }
+    public DateTime? ConfirmedDate { get; set; }
+    public DateTime? PreparingDate { get; set; }
+    public DateTime? ShippedDate { get; set; }
+    public DateTime? DeliveredDate { get; set; }
+    public DateTime? CanceledDate { get; set; }
+    public DateTime? ExpectedDeliveryDate { get; set; }
+    public string? ReasonCancel { get; set; }
     public decimal SubTotal { get; set; }
     public decimal DiscountAmount { get; set; }
     public string? VoucherCode { get; set; }
     public decimal Total { get; set; }
+    public PaymentOderDto Payment { get; set; }
     public ShippingAddressViewOrder ShippingAddress { get; set; }
     public List<OrderItemDto> OrderItems { get; set; } = new List<OrderItemDto>();
+}
+
+public class PaymentOderDto
+{
+    public PaymentMethod Method { get; set; }
+    public PaymentStatus Status { get; set; }
+    public DateTime? PaidAt { get; set; }
 }
 
 public class OrderItemDto
@@ -49,4 +64,5 @@ public class OrderItemDto
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
     public decimal TotalPrice { get; set; }
+    public string? ImageUrl { get; set; }
 }

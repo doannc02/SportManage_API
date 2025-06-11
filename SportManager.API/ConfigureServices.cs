@@ -106,6 +106,9 @@ public static class ConfigureServices
             options.AddPolicy("UserOnly", policy =>
                 policy.RequireRole("User"));
 
+            options.AddPolicy("ShipperOnly", policy =>
+               policy.RequireRole("Shipper"));
+
             options.AddPolicy("AdminOrManager", policy =>
                 policy.RequireRole("Admin", "Manager"));
 

@@ -15,15 +15,15 @@ public class Payment : EntityBase<Guid>
 
 public enum PaymentMethod
 {
-    CashOnDelivery,
-    CreditCard,
-    EWallet
+    CashOnDelivery,//COD
+    CreditCard, // thẻ tín dụng
+    EWallet // ví điện tử
 }
 
 public enum PaymentStatus
 {
-    Pending,
-    Completed,
-    Failed,
-    Refunded
+    Pending, // Chờ thanh toán
+    Completed, // Đã thanh toán
+    Failed, // Thất bại thanh toán
+    Refunded // Hoàn tiền
 }

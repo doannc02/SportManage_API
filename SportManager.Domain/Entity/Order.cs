@@ -9,6 +9,8 @@ public class Order : EntityBase<Guid>
     public Guid CustomerId { get; set; }
     public Customer Customer { get; set; }
     public string? Notes { get; set; }
+    // Lý do hủy đơn hàng, nếu có
+    public string? ReasonCancel { get; set; }
     public StateOrder State { get; set; }
     public DateTime OrderDate { get; set; } = DateTime.UtcNow;
     public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
@@ -25,14 +27,25 @@ public class Order : EntityBase<Guid>
 
     // Tổng tiền sau khi áp dụng giảm giá
     public decimal Total => SubTotal - DiscountAmount;
+
+    // Các thuộc tính mới để theo dõi thời gian của từng trạng thái
+    public DateTime? ConfirmedDate { get; set; } // Ngày xác nhận đơn hàng
+    public DateTime? PreparingDate { get; set; } // Ngày bắt đầu chuẩn bị hàng
+    public DateTime? ShippedDate { get; set; } // Ngày shipper giao hàng
+    public DateTime? DeliveredDate { get; set; } // Ngày khách hàng nhận được hàng (giao thành công)
+    public DateTime? CanceledDate { get; set; } // Ngày hủy đơn hàng
+
+    public DateTime? ExpectedDeliveryDate { get; set; }
 }
 
 public enum StateOrder
 {
-    Pending, // mới đặt có thể hủy đơn hàng được
     Canceled, // đã hủy đơn hàng, không thao tác tiếp được
-    Shipped,
     Receivered,
     Sendered,
-    Processing
+    Pending,        // Mới đặt, chờ xác nhận
+    Confirmed,      // Đã xác nhận (tương ứng với "Đã xác nhận" trên UI)
+    Processing,     // Đang chuẩn bị hàng (tương ứng với "Đang chuẩn bị hàng" trên UI)
+    Shipped,        // Đang giao hàng (tương ứng với "Đang giao hàng" trên UI)
+    Delivered,      // Đã giao hàng (tương ứng với "Đã giao hàng" trên UI)
 }

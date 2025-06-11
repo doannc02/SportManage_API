@@ -21,6 +21,7 @@ public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, Order
     {
         // Truy xuất đơn hàng trước
         var order = await _dbContext.Orders
+            .Include(o => o.Payment)
             .Include(o => o.OrderItems)
                 .ThenInclude(o => o.ProductVariant)
             .Include(o => o.Voucher)
@@ -55,10 +56,23 @@ public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, Order
             CustomerName = order.Customer.User.Username,
             OrderDate = order.OrderDate,
             State = order.State.ToString(),
+            CanceledDate = order.CanceledDate,
+            ConfirmedDate = order.ConfirmedDate,
+            DeliveredDate = order.DeliveredDate,
+            ExpectedDeliveryDate = order.ExpectedDeliveryDate,
+            PreparingDate = order.PreparingDate,
+            ReasonCancel = order.ReasonCancel,
+            ShippedDate = order.ShippedDate,
             Notes = order.Notes,
             SubTotal = order.CalculateSubTotal(),
             DiscountAmount = order.DiscountAmount,
             Total = order.CalculateSubTotal() - order.DiscountAmount,
+            Payment = order.Payment != null ? new PaymentOderDto
+            {
+                Method = order.Payment.Method,
+                Status = order.Payment.Status,
+                PaidAt = order.Payment.PaidAt
+            } : null,
             VoucherCode = order.Voucher != null ? order.Voucher?.Code : null,
             ShippingAddress = shippingAddress != null
             ? new ShippingAddressViewOrder
@@ -76,7 +90,8 @@ public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, Order
                 ProductName = item.ProductVariant.Name,
                 Quantity = item.Quantity,
                 UnitPrice = item.UnitPrice,
-                TotalPrice = item.TotalPrice
+                TotalPrice = item.TotalPrice,
+                ImageUrl = item.ProductVariant.Images?.FirstOrDefault()
             }).ToList()
         };
     }

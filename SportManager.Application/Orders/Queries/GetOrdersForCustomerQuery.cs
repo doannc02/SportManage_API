@@ -39,6 +39,7 @@ public class GetCustomerOrdersQueryHandler : IRequestHandler<GetCustomerOrdersQu
         }
 
         var query = _dbContext.Orders
+            .Include(o => o.Payment)
             .Include(o => o.OrderItems)
             .ThenInclude(oi => oi.ProductVariant)
             .Include(o => o.Voucher)
@@ -80,8 +81,21 @@ public class GetCustomerOrdersQueryHandler : IRequestHandler<GetCustomerOrdersQu
             State = o.State.ToString(),
             Notes = o.Notes,
             SubTotal = o.CalculateSubTotal(),
+            CanceledDate = o.CanceledDate,
+            ConfirmedDate = o.ConfirmedDate,
+            DeliveredDate = o.DeliveredDate,
+            ExpectedDeliveryDate = o.ExpectedDeliveryDate,
+            PreparingDate = o.PreparingDate,
+            ReasonCancel = o.ReasonCancel,
+            ShippedDate = o.ShippedDate,
             DiscountAmount = o.DiscountAmount,
             Total = o.CalculateSubTotal() - o.DiscountAmount,
+            Payment = o.Payment != null ? new PaymentOderDto
+            {
+                Method = o.Payment.Method, 
+                Status = o.Payment.Status,
+                PaidAt = o.Payment.PaidAt
+            } : null,
             VoucherCode = o.Voucher != null ? o.Voucher.Code : null,
             OrderItems = o.OrderItems.Select(item => new OrderItemDto
             {
