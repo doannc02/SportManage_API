@@ -35,4 +35,8 @@ public class TableNameConstants
     public const string Voucher = "voucher";
     public const string VoucherUsage = "voucher_usage";
     public const string UserVoucher = "user_voucher";
+    public const string Carrier = "carrier";
+    public const string Shipper = "shipper";
+    public const string Shipper_Carrier = "shipper_carrier";
+    public const string Shipping_History = "shipping_history";
 }

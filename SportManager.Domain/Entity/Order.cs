@@ -1,4 +1,5 @@
 ﻿using SportManager.Domain.Constants;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SportManager.Domain.Entity;
@@ -22,11 +23,36 @@ public class Order : EntityBase<Guid>
     public Voucher? Voucher { get; set; }
     public decimal DiscountAmount { get; set; }
 
+    public Guid? PackingAddressId { get; set; }
+
+    [StringLength(200)]
+    public string? PackingAddress { get; set; } // Địa chỉ đóng gói
+    public Guid? BillingAddressId { get; set; }
+
+    [StringLength(200)]
+    public string? BillingAddress { get; set; } // Địa chỉ thanh toán
     // Tính tổng tiền của đơn hàng trước khi giảm giá
     public decimal SubTotal => OrderItems.Sum(item => item.TotalPrice);
 
     // Tổng tiền sau khi áp dụng giảm giá
     public decimal Total => SubTotal - DiscountAmount;
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? ShippingFee { get; set; } // Phí vận chuyển
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? Weight { get; set; } // Khối lượng (kg)
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? Height { get; set; } // Chiều cao (m)
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? Width { get; set; } // Chiều rộng (m)
+
+    public string? UnitWeight { get; set; }
+    public string? UnitWidth { get; set; }
+    public string? UnitHeight { get; set; }
+
 
     // Các thuộc tính mới để theo dõi thời gian của từng trạng thái
     public DateTime? ConfirmedDate { get; set; } // Ngày xác nhận đơn hàng
@@ -38,6 +64,16 @@ public class Order : EntityBase<Guid>
     public string? ImageConfirmed { get; set; } // Hình ảnh xác nhận đơn hàng, nếu có
 
     public DateTime? ExpectedDeliveryDate { get; set; }
+    public Guid? CarrierId { get; set; }
+
+    // Navigation properties
+    [ForeignKey("CarrierId")]
+    public virtual Carrier? Carrier { get; set; }
+
+    [ForeignKey("ShipperId")]
+    public virtual Shipper? Shipper { get; set; }
+
+    public virtual ICollection<ShippingHistory> ShippingHistories { get; set; } = new List<ShippingHistory>();
 }
 
 public enum StateOrder
