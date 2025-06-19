@@ -128,12 +128,14 @@ public class PlaceOrderCommandHandler(
         }
 
         // Tạo payment
-        var payment = new Payment
-        {
-            Method = request.PaymentMethod,
-            Status = PaymentStatus.Pending,
-            Order = order
-        };
+    
+            var payment = new Payment
+            {
+                Method = request.PaymentMethod,
+                Status = request.PaymentMethod == PaymentMethod.CashOnDelivery ? PaymentStatus.Pending : PaymentStatus.Completed,
+                Order = order
+            };
+        
 
         order.Payment = payment;
 
