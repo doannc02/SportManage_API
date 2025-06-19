@@ -30,6 +30,7 @@ public class ProductsController : ApiControllerBase
         return result;
     }
 
+
     [HttpPost("review")]
     public async Task<Guid> ProductReview(CreateProductReviewCommand input, CancellationToken cancellationToken)
     {
@@ -69,6 +70,11 @@ public class ProductsController : ApiControllerBase
         //  await DbContextTransaction.CommitAsync(cancellationToken);
         return result;
     }
+
+    [Authorize(Policy = "AdminOnly")]
+    [HttpGet("inventory-low")]
+    public async Task<List<ProductInventoryLowDto>> GetProductInventoryLow(CancellationToken cancellationToken)
+        => await Mediator.Send(new GetProductInventoryLowQuery(), cancellationToken);
 
     [AllowAnonymous]
     [HttpGet("{id:guid}")]

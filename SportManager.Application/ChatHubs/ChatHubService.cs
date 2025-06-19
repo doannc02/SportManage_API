@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.SignalR;
 using SportManager.Application.Abstractions;
 using SportManager.Application.ChatHubs.Commands;
 using SportManager.Application.Common.Interfaces;
 using SportManager.Domain.Constants;
 using SportManager.Domain.Entity;
-using System.Security.Claims;
-using System.Text.RegularExpressions;
 
 public class ChatHub : Hub
 {
