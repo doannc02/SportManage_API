@@ -67,6 +67,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddSignalR();
 
+builder.Services.AddCloudinaryService(builder.Configuration);
 builder.Services.AddServicesDependency(builder.Configuration);
 builder.Services.AddAuthentication(builder.Configuration, builder.Environment);
 builder.Services.AddApplicationServices();
