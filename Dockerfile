@@ -25,7 +25,7 @@ RUN dotnet publish "SportManager.API.csproj" -c Release -o /app/publish --no-res
 # Stage cuối cùng để tạo runtime image nhỏ gọn
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-EXPOSE 8080 # Port mặc định cho ASP.NET Core trong Docker
+EXPOSE 8080
 
 # Copy các file đã publish từ stage 'build'
 COPY --from=build /app/publish .
