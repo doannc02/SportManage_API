@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using CloudinaryDotNet; // Thêm using này
-using Microsoft.Extensions.Configuration; // Thêm using này
-using Microsoft.Extensions.DependencyInjection; // Thêm using này nếu chưa có
-using Microsoft.AspNetCore.Hosting; // Thêm using này nếu cần IWebHostEnvironment
-using Microsoft.Extensions.Logging; // Thêm using này để log cảnh báo
+using CloudinaryDotNet; 
+using Microsoft.Extensions.Configuration; 
+using Microsoft.Extensions.DependencyInjection; 
+using Microsoft.AspNetCore.Hosting; 
+using Microsoft.Extensions.Logging; 
 
 namespace SportManager.API;
 
