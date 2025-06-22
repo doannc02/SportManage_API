@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FirebaseAdmin.Messaging;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SportManager.API.Services;
@@ -50,6 +53,26 @@ public static class ConfigureServices
 
         services.AddScoped<IReadOnlyApplicationDbContext>(provider =>
             provider.GetRequiredService<ReadOnlyApplicationDbContext>());
+
+        var firebaseConfigJson = Environment.GetEnvironmentVariable("FIREBASE_ADMIN_SDK_CONFIG");
+
+        if (string.IsNullOrEmpty(firebaseConfigJson))
+        {
+            // Hoặc đọc từ appsettings.json nếu bạn muốn fallback hoặc trong môi trường dev
+            // var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
+            // firebaseConfigJson = configuration["Firebase:ServiceAccountKeyJson"];
+            throw new InvalidOperationException("Biến môi trường 'FIREBASE_ADMIN_SDK_CONFIG' không được tìm thấy hoặc rỗng.");
+        }
+
+        FirebaseApp.Create(new AppOptions()
+        {
+            // Sử dụng GoogleCredential.FromJson để tạo credential từ chuỗi JSON
+            Credential = GoogleCredential.FromJson(firebaseConfigJson),
+        });
+
+        services.AddSingleton(FirebaseMessaging.DefaultInstance);
+        services.AddScoped<IPushNotificationService, FirebasePushNotificationService>();
+
 
         return services;
     }

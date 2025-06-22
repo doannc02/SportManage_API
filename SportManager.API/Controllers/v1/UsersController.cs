@@ -193,5 +193,27 @@ public class UsersController : ApiControllerBase
         });
     }
 
+    public class SaveFcmTokenRequest
+    {
+        public Guid UserId { get; set; }
+        public string FcmToken { get; set; } = null!;
+    }
+
+    [HttpPost("save-fcm-token")]
+    public async Task<IActionResult> SaveFcmToken([FromBody] SaveFcmTokenRequest request)
+    {
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId);
+
+        if (user == null)
+        {
+            return NotFound("Người dùng không tồn tại.");
+        }
+
+        user.FcmToken = request.FcmToken;
+        await _dbContext.SaveChangesAsync();
+
+        return Ok("FCM Token đã được lưu thành công.");
+    }
 
 }
+
