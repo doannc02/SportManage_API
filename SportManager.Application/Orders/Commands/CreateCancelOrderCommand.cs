@@ -28,7 +28,7 @@ public class RequestCancelOrderCommandHandler(
             throw new ApplicationException("Đơn hàng không tồn tại.");
         }
 
-        var requestingUserId = Guid.Parse(_currentUser.UserId);
+        var requestingUserId = Guid.Parse(_currentUser.CustomerId);
 
         if (order.CustomerId != requestingUserId)
         {
