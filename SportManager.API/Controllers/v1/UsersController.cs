@@ -202,7 +202,8 @@ public class UsersController : ApiControllerBase
     [HttpPost("save-fcm-token")]
     public async Task<IActionResult> SaveFcmToken([FromBody] SaveFcmTokenRequest request)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId);
+        
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id.ToString() == (_userService.UserId));
 
         if (user == null)
         {
