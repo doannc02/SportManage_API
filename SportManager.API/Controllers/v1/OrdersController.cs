@@ -30,7 +30,6 @@ public class OrdersController : ApiControllerBase
     }
 
     [HttpPut("cancel")]
-    [Authorize(Policy = "UserOnly")]
     public async Task<IActionResult> CancelRequestOrder(Guid id, [FromBody] RequestCancelOrderCommand request)
     {
         var result = await Mediator.Send(request);
