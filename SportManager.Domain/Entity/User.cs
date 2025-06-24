@@ -12,6 +12,6 @@ public class User : EntityBase<Guid>
     public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
     public virtual Customer? CustomerProfile { get; set; }
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
-    public string? FcmToken { get; set; }
+    public virtual string[]? FcmTokens { get; set; }
 }
 

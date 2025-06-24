@@ -202,18 +202,51 @@ public class UsersController : ApiControllerBase
     [HttpPost("save-fcm-token")]
     public async Task<IActionResult> SaveFcmToken([FromBody] SaveFcmTokenRequest request)
     {
-        
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id.ToString() == (_userService.UserId));
+        // Kiểm tra tính hợp lệ của request
+        if (string.IsNullOrWhiteSpace(request.FcmToken))
+        {
+            return BadRequest("FCM Token không được rỗng.");
+        }
+
+      
+        if (!Guid.TryParse(_userService.UserId, out Guid currentUserId))
+        {
+            return Unauthorized("Không thể xác định người dùng hiện tại.");
+        }
+
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == currentUserId);
 
         if (user == null)
         {
             return NotFound("Người dùng không tồn tại.");
         }
 
-        user.FcmToken = request.FcmToken;
-        await _dbContext.SaveChangesAsync();
+        var currentTokens = user.FcmTokens?.ToList() ?? new List<string>();
 
-        return Ok("FCM Token đã được lưu thành công.");
+        if (!currentTokens.Contains(request.FcmToken))
+        {
+            currentTokens.Add(request.FcmToken);
+            Console.WriteLine($"Thêm FCM Token mới cho người dùng {user.Id}: {request.FcmToken}");
+        }
+        else
+        {
+            Console.WriteLine($"FCM Token {request.FcmToken} đã tồn tại cho người dùng {user.Id}. Không thêm trùng lặp.");
+        }
+
+        // Cập nhật lại mảng FcmTokens trong đối tượng user
+        user.FcmTokens = currentTokens.ToArray();
+
+        try
+        {
+            await _dbContext.SaveChangesAsync();
+            Console.WriteLine("FCM Token(s) đã được lưu thành công.");
+            return Ok("FCM Token đã được lưu thành công.");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Lỗi khi lưu FCM Token: {ex.Message}");
+            return StatusCode(500, "Có lỗi xảy ra khi lưu FCM Token.");
+        }
     }
 
 }
