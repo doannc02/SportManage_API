@@ -1,6 +1,14 @@
 ﻿using SportManager.Application.Common.Interfaces;
 using SportManager.Application.Abstractions;
-using SportManager.Domain.Entity; 
+using SportManager.Domain.Entity;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace SportManager.Application.Orders.Commands;
 
 public class RequestCancelOrderCommand : IRequest<bool>
@@ -20,7 +28,7 @@ public class RequestCancelOrderCommandHandler(
     {
         var order = await _dbContext.Orders
             .Include(o => o.Customer)
-                .ThenInclude(c => c.User) 
+                .ThenInclude(c => c.User)
             .FirstOrDefaultAsync(o => o.Id == request.OrderId, cancellationToken);
 
         if (order == null)
@@ -28,9 +36,13 @@ public class RequestCancelOrderCommandHandler(
             throw new ApplicationException("Đơn hàng không tồn tại.");
         }
 
-        var requestingUserId = Guid.Parse(_currentUser.CustomerId);
+        // Lấy CustomerId từ CurrentUserService, đảm bảo chuyển đổi đúng kiểu nếu cần
+        if (!Guid.TryParse(_currentUser.CustomerId, out Guid requestingCustomerId))
+        {
+            throw new ApplicationException("Không thể xác định người dùng yêu cầu.");
+        }
 
-        if (order.CustomerId != requestingUserId)
+        if (order.CustomerId != requestingCustomerId)
         {
             throw new ApplicationException("Bạn không có quyền yêu cầu hủy đơn hàng này.");
         }
@@ -50,13 +62,15 @@ public class RequestCancelOrderCommandHandler(
         // Lấy danh sách Admin
         var admins = await _dbContext.Users
             .Include(u => u.UserRoles)
-                .ThenInclude(ur => ur.Role) 
-            .Where(u => u.UserRoles.Any(ur => ur.Role.Name == "Admin")) 
+                .ThenInclude(ur => ur.Role)
+            .Where(u => u.UserRoles.Any(ur => ur.Role.Name == "Admin"))
             .ToListAsync(cancellationToken);
 
+        // Gửi thông báo đến tất cả các thiết bị của mỗi Admin
         foreach (var admin in admins)
         {
-            if (!string.IsNullOrEmpty(admin.FcmToken))
+            // Kiểm tra xem admin có FcmTokens nào không
+            if (admin.FcmTokens != null && admin.FcmTokens.Any())
             {
                 var title = "Yêu cầu hủy đơn hàng mới!";
                 var customerInfo = order.Customer?.User?.Username ?? order.Customer?.User?.Email ?? order.Customer?.User?.Id.ToString();
@@ -67,7 +81,13 @@ public class RequestCancelOrderCommandHandler(
                     { "action", "review_cancel_request" },
                     { "customerId", order.CustomerId.ToString() }
                 };
-                await _pushNotificationService.SendNotificationToDeviceAsync(admin.FcmToken, title, body, data);
+
+                // Sử dụng SendNotificationToUserAsync để gửi đến tất cả các token của admin này
+                await _pushNotificationService.SendNotificationToUserAsync(admin.Id.ToString(), title, body, data);
+            }
+            else
+            {
+                Console.WriteLine($"Admin {admin.Id} không có FCM token nào được đăng ký.");
             }
         }
 
