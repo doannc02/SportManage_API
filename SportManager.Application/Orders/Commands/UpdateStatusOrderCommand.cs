@@ -97,7 +97,23 @@ public class UpdateOrderStatusCommandHandler(
             if (order.CustomerId != Guid.Empty) 
             {
                 var title = "Đơn hàng của bạn đã bị hủy!";
-                var body = $"Đơn hàng #{order.Id} đã bị hủy. Lý do: {request.Reason ?? "Không có lý do cụ thể."}";
+                var body = $"Mã đơn hàng: #{order.Id}. Lý do: {order.ReasonCancel ?? "Không có lý do cụ thể."}";
+                var data = new Dictionary<string, string>
+                {
+                    { "orderId", order.Id.ToString() },
+                    { "status", "canceled" }
+                };
+                await _pushNotificationService.SendNotificationToUserAsync(order.Customer.User.Id.ToString(), title, body, data);
+            }
+        }
+
+        if(oldStatus == StateOrder.Canceled && request.NewStatus == StateOrder.RejectCancel)
+        {
+            if (order.CustomerId != Guid.Empty)
+            {
+                order.State = StateOrder.Shipped;
+                var title = "Yêu cầu huỷ đơn hàng của bạn bị từ chối!";
+                var body = $"Mã đơn hàng: #{order.Id}. Lý do yêu cầu: {order.ReasonCancel ?? "Không có lý do cụ thể."}";
                 var data = new Dictionary<string, string>
                 {
                     { "orderId", order.Id.ToString() },

@@ -88,5 +88,6 @@ public enum StateOrder
     Delivered,      // Đã giao hàng (tương ứng với "Đã giao hàng" trên UI)
     Returned,   // Đã hoàn hàng (hủy sau khi giao)
     Refunded,   // Đã hoàn tiền
-    RequestCancel // Yêu cầu hủy đơn hàng
+    RequestCancel, // Yêu cầu hủy đơn hàng
+    RejectCancel
 }
