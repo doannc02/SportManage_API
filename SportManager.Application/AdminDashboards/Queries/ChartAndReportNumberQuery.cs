@@ -1,4 +1,5 @@
 ﻿using SportManager.Application.AdminDashboards.Models;
+using SportManager.Application.Common.Exception;
 using SportManager.Application.Common.Interfaces;
 using SportManager.Domain.Entity;
 
@@ -39,9 +40,10 @@ public class GetsChartAndRpQueryQueryHandler(IReadOnlyApplicationDbContext dbCon
     private async Task<decimal> GetTotalRevenue(DateTime startDate, DateTime endDate, CancellationToken cancellationToken)
     {
         return await dbContext.Orders
+            .Include(x => x.OrderItems)
             .Where(o => o.OrderDate >= startDate && o.OrderDate < endDate.AddDays(1)) 
             .Where(o => o.State == StateOrder.Delivered)
-            .SumAsync(o => o.Total, cancellationToken);
+            .SumAsync(o => o.CalculateSubTotal(), cancellationToken);
     }
 
     // Similarly for GetTotalDiscount
