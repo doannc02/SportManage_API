@@ -45,7 +45,7 @@ public class GetsChartAndRpQueryQueryHandler(IReadOnlyApplicationDbContext dbCon
             .Where(o => o.State == StateOrder.Delivered)
             .ToListAsync(cancellationToken);
 
-        return orders.Sum(o => o.CalculateSubTotal());
+        return orders.Sum(o => o.CalculateSubTotal() - o.DiscountAmount);
     }
 
     // Similarly for GetTotalDiscount
