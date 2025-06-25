@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SportManager.Application.Categories.Commands.Create;
 using SportManager.Application.Categories.Queries;
 using SportManager.Application.Category.Commands.Delete;
@@ -18,6 +19,7 @@ public class CategoriesController : ApiControllerBase
        CancellationToken cancellationToken)
        => await Mediator.Send(new GetCategoryByIdQuery(id), cancellationToken);
 
+    [AllowAnonymous]
     [HttpGet("paging")]
     public async Task<PageResult<GetsPagingCategoryQueryResponse>> Get(
        [FromQuery] GetsPagingQuery request,
