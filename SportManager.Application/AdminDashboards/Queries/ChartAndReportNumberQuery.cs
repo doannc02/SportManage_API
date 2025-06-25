@@ -39,11 +39,13 @@ public class GetsChartAndRpQueryQueryHandler(IReadOnlyApplicationDbContext dbCon
     }
     private async Task<decimal> GetTotalRevenue(DateTime startDate, DateTime endDate, CancellationToken cancellationToken)
     {
-        return await dbContext.Orders
-            .Include(x => x.OrderItems)
-            .Where(o => o.OrderDate >= startDate && o.OrderDate < endDate.AddDays(1)) 
+        var orders = await dbContext.Orders
+            .Include(o => o.OrderItems)
+            .Where(o => o.OrderDate >= startDate && o.OrderDate < endDate.AddDays(1))
             .Where(o => o.State == StateOrder.Delivered)
-            .SumAsync(o => o.CalculateSubTotal(), cancellationToken);
+            .ToListAsync(cancellationToken);
+
+        return orders.Sum(o => o.CalculateSubTotal());
     }
 
     // Similarly for GetTotalDiscount
