@@ -194,7 +194,6 @@ public class UpdateOrderStatusCommandHandler(
             [StateOrder.Processing] = new() { StateOrder.Confirmed, StateOrder.Shipped, StateOrder.Canceled }, // Added Canceled from Processing
             [StateOrder.Shipped] = new() { StateOrder.Delivered, StateOrder.Canceled, StateOrder.Returned },
             [StateOrder.Delivered] = new() { StateOrder.Returned }, // Can a delivered order be returned? If so, this is fine.
-            [StateOrder.Canceled] = new() { StateOrder.RejectCancel }, // Assuming RejectCancel is a state you can transition TO from Canceled.
             [StateOrder.Returned] = new() { StateOrder.Refunded },
             [StateOrder.Refunded] = new() { }, // Final state, no further transitions
             [StateOrder.Receivered] = new() { StateOrder.Pending }, // Re-evaluate: This seems like an initial internal state.
