@@ -120,7 +120,7 @@ public class UpdateOrderStatusCommandHandler(
 
         // Handle specific case for RejectCancel (which wasn't in your switch, but in your previous if-block)
         // This implicitly changes the state *after* the switch
-        if (oldStatus == StateOrder.Canceled && request.NewStatus == StateOrder.RejectCancel)
+        if (request.NewStatus == StateOrder.RejectCancel)
         {
             // You had 'order.State = StateOrder.Shipped;' here. 
             // This would override the state set in the switch if NewStatus was already Shippered.
