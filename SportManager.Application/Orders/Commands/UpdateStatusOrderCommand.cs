@@ -189,9 +189,9 @@ public class UpdateOrderStatusCommandHandler(
         // Define all valid transitions
         var validTransitions = new Dictionary<StateOrder, List<StateOrder>>()
         {
-            [StateOrder.Pending] = new() { StateOrder.Confirmed, StateOrder.Canceled, StateOrder.Processing },
-            [StateOrder.Confirmed] = new() { StateOrder.Processing, StateOrder.Canceled },
-            [StateOrder.Processing] = new() { StateOrder.Confirmed, StateOrder.Shipped, StateOrder.Canceled }, // Added Canceled from Processing
+            [StateOrder.Pending] = new() { StateOrder.Confirmed, StateOrder.Canceled, StateOrder.Processing, StateOrder.RejectCancel },
+            [StateOrder.Confirmed] = new() { StateOrder.Processing, StateOrder.Canceled, StateOrder.RejectCancel },
+            [StateOrder.Processing] = new() { StateOrder.Confirmed, StateOrder.Shipped, StateOrder.Canceled, StateOrder.RejectCancel }, // Added Canceled from Processing
             [StateOrder.Shipped] = new() { StateOrder.Delivered, StateOrder.Canceled, StateOrder.Returned },
             [StateOrder.Delivered] = new() { StateOrder.Returned }, // Can a delivered order be returned? If so, this is fine.
             [StateOrder.Returned] = new() { StateOrder.Refunded },
