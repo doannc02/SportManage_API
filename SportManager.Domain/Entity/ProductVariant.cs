@@ -19,4 +19,5 @@ public class ProductVariant : EntityBase<Guid>
 
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
+    public virtual Voucher? Voucher { get; set; }
 }

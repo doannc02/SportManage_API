@@ -5,12 +5,6 @@ using SportManager.Application.Products.Commands.Create;
 using SportManager.Application.Products.Commands.Delete;
 using SportManager.Application.Products.Quries;
 using SportManager.Application.Products.Commands.Update;
-
-
-//using SportManager.Application.Products.Commands.Delete;
-//using SportManager.Application.Products.Commands.Update;
-using SportManager.Application.Products.Quries;
-using SportManager.Application.Products.Models;
 using SportManager.Application.ProductReviews.Commands;
 using SportManager.Application.Products.Queries;
 
@@ -86,5 +80,13 @@ public class ProductsController : ApiControllerBase
     public async Task<PageResult<ProductPageResponse>> Get(
         [FromQuery] GetsPagingQuery request,
         CancellationToken cancellationToken)
+        => await Mediator.Send(request, cancellationToken); 
+    
+    [AllowAnonymous]
+    [HttpGet("variant-paging")]
+    public async Task<PaginatedProductVariantsResult> GetVariants(
+        [FromQuery] GetAllProductVariantsQuery request,
+        CancellationToken cancellationToken)
         => await Mediator.Send(request, cancellationToken);
+
 }

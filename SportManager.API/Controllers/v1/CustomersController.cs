@@ -23,7 +23,7 @@ public class CustomersController : ApiControllerBase
       //  await DbContextTransaction.CommitAsync(cancellationToken);
         return result;
     }
-    [AllowAnonymous]
+
     [HttpPut]
     public async Task<UpdateCustomerResponse> Update(UpdateCustomerCommand input, CancellationToken cancellationToken)
     {

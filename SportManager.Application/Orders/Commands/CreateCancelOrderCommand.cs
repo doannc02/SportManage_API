@@ -1,13 +1,6 @@
 ﻿using SportManager.Application.Common.Interfaces;
 using SportManager.Application.Abstractions;
 using SportManager.Domain.Entity;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SportManager.Application.Orders.Commands;
 

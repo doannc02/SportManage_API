@@ -2,7 +2,6 @@
 using SportManager.Application.Common.Exception;
 using SportManager.Application.Common.Interfaces;
 using SportManager.Application.Orders.Models;
-using SportManager.Application.VoucherManagements.Commands;
 using SportManager.Domain.Entity;
 using ValidateVoucherCommand = SportManager.Application.Common.Exception.ValidateVoucherCommand;
 
@@ -10,8 +9,9 @@ namespace SportManager.Application.Orders.Commands;
 
 public class PlaceOrderCommandHandler(
     IApplicationDbContext _dbContext,
+    IPushNotificationService _pushNotificationService,
     ICurrentUserService _currentUser,
-    IMediator _mediator) // Thêm mediator để gọi validate voucher
+    IMediator _mediator) 
     : IRequestHandler<PlaceOrderCommand, Guid>
 {
     public async Task<Guid> Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
@@ -150,7 +150,35 @@ public class PlaceOrderCommandHandler(
         }
 
         await _dbContext.SaveChangesAsync(cancellationToken);
+        var admins = await _dbContext.Users
+            .Include(u => u.UserRoles)
+                .ThenInclude(ur => ur.Role)
+            .Where(u => u.UserRoles.Any(ur => ur.Role.Name == "Admin"))
+            .ToListAsync(cancellationToken);
 
+        // Gửi thông báo đến tất cả các thiết bị của mỗi Admin
+        foreach (var admin in admins)
+        {
+            // Kiểm tra xem admin có FcmTokens nào không
+            if (admin.FcmTokens != null && admin.FcmTokens.Any())
+            {
+                var title = "Đơn hàng mới!";
+                var customerInfo = order.Customer?.User?.Username ?? order.Customer?.User?.Email ?? order.Customer?.User?.Id.ToString();
+                var body = $"Khách hàng {customerInfo} đã tạo đơn đơn hàng #{order.Id}";
+                var data = new Dictionary<string, string>
+                {
+                    { "orderId", order.Id.ToString() },
+                    { "action", "create_order" },
+                    { "customerId", order.CustomerId.ToString() }
+                };
+
+                await _pushNotificationService.SendNotificationToUserAsync(admin.Id.ToString(), title, body, data);
+            }
+            else
+            {
+                Console.WriteLine($"Admin {admin.Id} không có FCM token nào được đăng ký.");
+            }
+        }
         return order.Id;
     }
 }

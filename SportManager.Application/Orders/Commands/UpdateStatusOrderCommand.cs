@@ -127,8 +127,9 @@ public class UpdateOrderStatusCommandHandler(
             // Consider if RejectCancel is truly a separate status or just a flag on Canceled.
             // For now, I'll assume you want to reset it to Shippered and notify.
             order.State = StateOrder.Shipped; // Reset state if cancellation was rejected
+            order.ReasonRejectCancel = request.Reason;
             notificationTitle = "Yêu cầu hủy đơn hàng của bạn đã bị từ chối!";
-            notificationBody = $"Mã đơn hàng: #{order.Id}. Yêu cầu hủy đã bị từ chối. Đơn hàng đang ở trạng thái: {order.State}.";
+            notificationBody = $"Mã đơn hàng: #{order.Id}. Yêu cầu hủy đã bị từ chối. Lý do: {order.ReasonRejectCancel} Đơn hàng đang ở trạng thái: {order.State}.";
         }
 
 
@@ -194,8 +195,9 @@ public class UpdateOrderStatusCommandHandler(
             [StateOrder.Processing] = new() { StateOrder.Confirmed, StateOrder.Shipped, StateOrder.Canceled, StateOrder.RejectCancel }, // Added Canceled from Processing
             [StateOrder.Shipped] = new() { StateOrder.Delivered, StateOrder.Canceled, StateOrder.Returned },
             [StateOrder.Delivered] = new() { StateOrder.Returned }, // Can a delivered order be returned? If so, this is fine.
+            [StateOrder.RequestCancel] = new() { StateOrder.RejectCancel, StateOrder.Canceled },
             [StateOrder.Returned] = new() { StateOrder.Refunded },
-            [StateOrder.Refunded] = new() { }, // Final state, no further transitions
+            [StateOrder.Refunded] = new() { },
             [StateOrder.Receivered] = new() { StateOrder.Pending }, // Re-evaluate: This seems like an initial internal state.
             [StateOrder.Sendered] = new() { StateOrder.Pending } // Re-evaluate: This seems like an initial internal state.
         };

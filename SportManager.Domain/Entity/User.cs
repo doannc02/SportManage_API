@@ -6,6 +6,7 @@ namespace SportManager.Domain.Entity;
 [Table(TableNameConstants.User)]
 public class User : EntityBase<Guid>
 {
+    public string? Avatar { get; set; }
     public string Username { get; set; }
     public string Email { get; set; }
     public string PasswordHash { get; set; }

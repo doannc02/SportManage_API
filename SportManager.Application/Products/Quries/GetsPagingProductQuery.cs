@@ -1,6 +1,5 @@
 ﻿using SportManager.Application.Common.Interfaces;
 using SportManager.Application.Products.Models;
-using SportManager.Application.Utilities;
 
 namespace SportManager.Application.Products.Queries;
 
@@ -32,9 +31,9 @@ public record BrandView
 public class GetsPagingQuery : IRequest<PageResult<ProductPageResponse>>
 {
     public string? Keyword { get; set; }
-    public int PageNumber { get; set; } = 1; // Changed to 1-based indexing
+    public int PageNumber { get; set; } = 1;
     public int PageSize { get; set; } = 20;
-    public List<Guid> CategoryIds { get; set; } = new(); // Simplified initialization
+    public List<Guid> CategoryIds { get; set; } = new();
 }
 
 public class GetsPagingQueryHandler : IRequestHandler<GetsPagingQuery, PageResult<ProductPageResponse>>

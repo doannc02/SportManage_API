@@ -1,4 +1,5 @@
-﻿using SportManager.Application.Common.Exception;
+﻿using SportManager.Application.Abstractions;
+using SportManager.Application.Common.Exception;
 using SportManager.Application.Common.Interfaces;
 using SportManager.Application.Customer.Models;
 using SportManager.Domain.Entity;
@@ -8,7 +9,7 @@ namespace SportManager.Application.Customer.Commands.Update;
 public class UpdateCustomerCommand : CustomerDto, IRequest<UpdateCustomerResponse>
 {
     public required Guid Id { get; set; }
-
+    public string ConfirmPassWord { get; set; }
     public void Normalize()
     {
         Address = Address.Trim();
@@ -34,7 +35,7 @@ public class UpdateCustomerValidator : CustomerValidatorBase<UpdateCustomerComma
     }
 }
 
-public class UpdateCustomerCommandHandler(IApplicationDbContext applicationDbContext)
+public class UpdateCustomerCommandHandler(IApplicationDbContext applicationDbContext, IAuthService _passwordHasher)
     : IRequestHandler<UpdateCustomerCommand, UpdateCustomerResponse>
 {
     public async Task<UpdateCustomerResponse> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
@@ -57,11 +58,15 @@ public class UpdateCustomerCommandHandler(IApplicationDbContext applicationDbCon
         customer.Address = request.Address;
         customer.Age = request.Age;
         customer.Gender = (Gender)request.Gender;
-        customer.Phone = request.Phone;
+        //customer.Phone = request.Phone;
 
-        //customer.User.Email = request.Email;
-        //customer.User.Username = request.UserName;
+        customer.User.Email = request.Email;
+        customer.User.Username = request.UserName;
 
+        if(request.Password == request.ConfirmPassWord)
+        {
+            customer.User.PasswordHash = _passwordHasher.HashPassword(request.Password, request.UserName);
+        }
         // Xử lý ShippingAddresses
         if (request.ShippingAddresses is not null)
         {
