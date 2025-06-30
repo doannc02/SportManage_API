@@ -89,13 +89,14 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
         {
             Email = request.Email,
             Username = request.UserName,
+            Avatar = request?.AvatarUrl,
             PasswordHash = _passwordHasher.HashPassword(request.Password, request.UserName),
             CustomerProfile = new Domain.Entity.Customer
             {
-                Gender = (Gender)request.Gender,
+                Gender = (Gender)request.Gender!,
                 Age = request.Age,
-                Phone = request.Phone.Trim(),
-                Address = request.Address.Trim(),
+                Phone = request.Phone!.Trim(),
+                Address = request.Address!.Trim(),
                 ShippingAddresses = request.ShippingAddresses != null && request.ShippingAddresses.Any() ? request.ShippingAddresses
                 .Select(
                     c => new ShippingAddress
