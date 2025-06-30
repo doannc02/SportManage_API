@@ -59,7 +59,7 @@ public class UpdateCustomerCommandHandler(IApplicationDbContext applicationDbCon
         customer.Age = request.Age;
         customer.Gender = (Gender)request.Gender;
         //customer.Phone = request.Phone;
-
+        customer.User.Avatar = request?.AvatarUrl;
         customer.User.Email = request.Email;
         customer.User.Username = request.UserName;
 

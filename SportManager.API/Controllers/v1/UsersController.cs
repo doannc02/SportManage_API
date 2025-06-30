@@ -51,6 +51,8 @@ public class UsersController : ApiControllerBase
                 u.Id,
                 u.Username,
                 u.Email,
+                u.Avatar,
+                Phone = u.CustomerProfile != null ? u.CustomerProfile.Phone : "",
                 Roles = u.UserRoles.Select(k => new 
                 {
                     RoleName = k.Role.Name  
