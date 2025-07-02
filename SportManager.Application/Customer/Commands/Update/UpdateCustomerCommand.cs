@@ -9,7 +9,7 @@ namespace SportManager.Application.Customer.Commands.Update;
 public class UpdateCustomerCommand : CustomerDto, IRequest<UpdateCustomerResponse>
 {
     public required Guid Id { get; set; }
-    public string ConfirmPassWord { get; set; }
+    public string? ConfirmPassWord { get; set; } = null;
     public void Normalize()
     {
         Address = Address.Trim();
