@@ -58,7 +58,7 @@ public class Order : EntityBase<Guid>
     // Các thuộc tính mới để theo dõi thời gian của từng trạng thái
     public DateTime? ConfirmedDate { get; set; } // Ngày xác nhận đơn hàng
     public DateTime? PreparingDate { get; set; } // Ngày bắt đầu chuẩn bị hàng
-    public DateTime? ProcessingDate { get; set; } 
+    public DateTime? ProcessingDate { get; set; }
     public DateTime? ShippedDate { get; set; } // Ngày shipper giao hàng
     public DateTime? DeliveredDate { get; set; } // Ngày khách hàng nhận được hàng (giao thành công)
     public DateTime? CanceledDate { get; set; } // Ngày hủy đơn hàng

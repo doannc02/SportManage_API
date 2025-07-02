@@ -22,19 +22,20 @@ public class GetCartQueryHandler(
             return [];
 
         return cart.Items.Select(item => new CartItemDto
-        {   Id = item.Id,
+        {
+            Id = item.Id,
             ProductVariantId = item.ProductVariantId,
             Quantity = item.Quantity,
-            ProductVariant = item.ProductVariant != null ? 
-            new ProductVariantView 
-            { 
+            ProductVariant = item.ProductVariant != null ?
+            new ProductVariantView
+            {
                 Id = item.ProductVariant.Id,
                 StockQuantity = item.ProductVariant.StockQuantity,
                 Attribute = item.ProductVariant.Attribute,
                 Name = item.ProductVariant.Name,
                 Images = item.ProductVariant.Images,
                 SKU = item.ProductVariant.SKU,
-                Price = item.ProductVariant.Price, 
+                Price = item.ProductVariant.Price,
             } : null,
         }).ToList();
     }

@@ -30,7 +30,7 @@ public class AuthsController : ApiControllerBase
         CancellationToken cancellationToken)
     {
         var response = await Mediator.Send(command, cancellationToken);
-      //  await DbContextTransaction.CommitAsync(cancellationToken);
+        //  await DbContextTransaction.CommitAsync(cancellationToken);
         return response;
     }
 
@@ -40,7 +40,7 @@ public class AuthsController : ApiControllerBase
         CancellationToken cancellationToken)
     {
         var response = await Mediator.Send(command, cancellationToken);
-       // await DbContextTransaction.CommitAsync(cancellationToken);
+        // await DbContextTransaction.CommitAsync(cancellationToken);
         return response;
     }
 
@@ -51,7 +51,7 @@ public class AuthsController : ApiControllerBase
         CancellationToken cancellationToken)
     {
         var response = await Mediator.Send(command, cancellationToken);
-     //   await DbContextTransaction.CommitAsync(cancellationToken);
+        //   await DbContextTransaction.CommitAsync(cancellationToken);
         return response;
     }
 }

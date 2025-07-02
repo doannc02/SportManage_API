@@ -101,19 +101,19 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
                 .Select(
                     c => new ShippingAddress
                     {
-                     IsDefault = c.IsDefault,
-                     AddressLine = c.AddressLine,
-                     Ward = c.Ward,
-                     City = c.City,
-                     CityId = c.CityId,
-                     Country = c.Country,
-                     CountryId = c.CountryId,
-                     District = c.District,
-                     Phone = c.Phone.Trim(),
-                     PostalCode = c.PostalCode,
-                     RecipientName = c.RecipientName,
+                        IsDefault = c.IsDefault,
+                        AddressLine = c.AddressLine,
+                        Ward = c.Ward,
+                        City = c.City,
+                        CityId = c.CityId,
+                        Country = c.Country,
+                        CountryId = c.CountryId,
+                        District = c.District,
+                        Phone = c.Phone.Trim(),
+                        PostalCode = c.PostalCode,
+                        RecipientName = c.RecipientName,
                     }
-                    
+
                     ).ToList() : Array.Empty<ShippingAddress>()
             },
             UserRoles = new List<UserRole>

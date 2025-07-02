@@ -45,5 +45,5 @@ public class Voucher : EntityBase<Guid>
     // Navigation
     public virtual ICollection<VoucherUsage> Usages { get; set; } = new List<VoucherUsage>();
     public virtual ICollection<UserVoucher> UserVouchers { get; set; } = new List<UserVoucher>();
-    public virtual ICollection<ProductVariant>?  ProductVariants { get; set; }
+    public virtual ICollection<ProductVariant>? ProductVariants { get; set; }
 }

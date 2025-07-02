@@ -12,8 +12,8 @@ public class GetUserResponse
     public string Address { get; set; }
     public string? AvatarUrl { get; set; }
     public UserView User { get; set; }
-    public List<ShippingAddressView>? ShippingAddresses { get; set; } 
-    public DateTime  CreatedAt { get; set; }
+    public List<ShippingAddressView>? ShippingAddresses { get; set; }
+    public DateTime CreatedAt { get; set; }
     public List<RoleView>? Roles { get; set; }
 }
 public class UserView

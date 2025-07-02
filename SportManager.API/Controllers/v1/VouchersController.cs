@@ -31,7 +31,7 @@ public class VouchersController : ApiControllerBase
         return Ok(result);
     }
 
-    public VouchersController( ICurrentUserService currentUserService)
+    public VouchersController(ICurrentUserService currentUserService)
     {
         _currentUserService = currentUserService;
     }
@@ -88,7 +88,7 @@ public class VouchersController : ApiControllerBase
     [Authorize]
     public async Task<ActionResult<IEnumerable<VoucherDto>>> GetAvailableVouchers()
     {
-    
+
         var result = await Mediator.Send(new GetAvailableVouchersQuery { });
         return Ok(result);
     }
@@ -98,7 +98,7 @@ public class VouchersController : ApiControllerBase
     [Authorize]
     public async Task<ActionResult<VoucherDetailDto>> GetVoucherDetail(Guid id)
     {
-        var result = await Mediator.Send(new GetVoucherDetailQuery { Id = id});
+        var result = await Mediator.Send(new GetVoucherDetailQuery { Id = id });
         return Ok(result);
     }
 
@@ -125,7 +125,7 @@ public class VouchersController : ApiControllerBase
         var userId = Guid.Parse(_currentUserService.UserId);
 
         // Kiểm tra xem đơn hàng có tồn tại và thuộc về người dùng hiện tại không
-        var order = await Mediator.Send(new GetOrderByIdQuery(request.OrderId ));
+        var order = await Mediator.Send(new GetOrderByIdQuery(request.OrderId));
         if (order == null)
         {
             return NotFound("Order not found");

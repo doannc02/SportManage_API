@@ -6,7 +6,7 @@ namespace SportManager.Application.Auths;
 public class GetAllRoles : IRequest<PageResult<RoleView>>
 {
     public int PageNumber { get; set; } = 0;
-    public int PageSize { get; set; } = 20; 
+    public int PageSize { get; set; } = 20;
 }
 
 public class GetAllRolesHandler(IReadOnlyApplicationDbContext dbContext)

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SportManager.Domain.Entity;
 
 [Table(TableNameConstants.TicketCategory)]
-public class TicketCategory: EntityBase<Guid>
+public class TicketCategory : EntityBase<Guid>
 {
     [Required]
     [MaxLength(100)]

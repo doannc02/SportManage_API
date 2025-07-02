@@ -7,7 +7,7 @@ public class ApplicationException : System.Exception
     }
 
     public ApplicationException(string errorKey, string? message = null) : base(
-        $"ERROR KEY: {errorKey}, message: {message}")   
+        $"ERROR KEY: {errorKey}, message: {message}")
     {
         ErrorKey = errorKey;
     }

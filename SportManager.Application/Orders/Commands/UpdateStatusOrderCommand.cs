@@ -179,7 +179,7 @@ public class UpdateOrderStatusCommandHandler(
         // It should be PaymentStatus.Pending (or relevant pre-completion status) if you want to refund only unpaid COD orders upon cancellation.
         // Or if it's already Completed and you're refunding, then PaymentStatus.Completed makes sense.
         // I'm assuming you meant to check the current payment status before marking as refunded.
-        if (order.Payment != null && order.Payment.Status == PaymentStatus.Completed) 
+        if (order.Payment != null && order.Payment.Status == PaymentStatus.Completed)
         {
             order.Payment.Status = PaymentStatus.Refunded;
         }

@@ -29,11 +29,11 @@ public class GetsPagingQueryHandler(IReadOnlyApplicationDbContext dbContext)
                 EF.Functions.ILike(product.Name, $"%{keyword!}%"))
             .Select(product => new GetsPagingCategoryQueryResponse
             {
-               Id = product.Id,
-               Description = product.Description,
-               Logo = product.Logo,
-               Name = product.Name,
-               CreatedAt = product.CreatedAt,
+                Id = product.Id,
+                Description = product.Description,
+                Logo = product.Logo,
+                Name = product.Name,
+                CreatedAt = product.CreatedAt,
             })
             .OrderByDescending(product => product.CreatedAt);
         return await PageResult<GetsPagingCategoryQueryResponse>.CreateAsync(query, request.PageNumber, request.PageSize, cancellationToken);

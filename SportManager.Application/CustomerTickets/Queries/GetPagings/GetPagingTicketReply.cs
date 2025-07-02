@@ -35,7 +35,7 @@ public class GetRepliesHandler : IRequestHandler<GetRepliesQuery, List<CustomerS
                 Images = r.Images,
                 UserName = r.User != null ? r.User.Username : "",
                 StaffName = r.StaffId != null ? "Nhân viên #" + r.StaffId : "",
-                ChildCount = _context.TicketReplies.Count(x =>  x.ParentId == r.Id)
+                ChildCount = _context.TicketReplies.Count(x => x.ParentId == r.Id)
             })
             .ToListAsync(cancellationToken);
 

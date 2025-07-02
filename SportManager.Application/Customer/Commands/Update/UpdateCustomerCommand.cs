@@ -63,7 +63,7 @@ public class UpdateCustomerCommandHandler(IApplicationDbContext applicationDbCon
         customer.User.Email = request.Email;
         customer.User.Username = request.UserName;
 
-        if(request.Password == request.ConfirmPassWord)
+        if (request.Password == request.ConfirmPassWord)
         {
             customer.User.PasswordHash = _passwordHasher.HashPassword(request.Password, request.UserName);
         }

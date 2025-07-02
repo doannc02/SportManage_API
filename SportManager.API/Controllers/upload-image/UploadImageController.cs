@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using CloudinaryDotNet; 
-using CloudinaryDotNet.Actions; 
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace SportManager.API.Controllers.upload_image;
 
@@ -33,7 +33,7 @@ public class UploadImageController : ApiControllerBase
             if (file.Length == 0)
             {
                 _logger.LogWarning("Skipping empty file: {FileName}", file.FileName);
-                continue; 
+                continue;
             }
 
             try
@@ -46,7 +46,7 @@ public class UploadImageController : ApiControllerBase
 
                 var uploadParams = new ImageUploadParams()
                 {
-                    File = new FileDescription(file.FileName, stream), 
+                    File = new FileDescription(file.FileName, stream),
                     PublicId = uniquePublicId, // Thiết lập PublicId
                     Overwrite = true, // Tùy chọn: ghi đè nếu PublicId đã tồn tại (ít khi xảy ra với Guid)
                     // Folder = "sport-manager-images", // Tùy chọn: Tổ chức trong một thư mục trên Cloudinary Dashboard
@@ -93,7 +93,7 @@ public class UploadImageController : ApiControllerBase
 
             var deleteResult = await _cloudinary.DestroyAsync(deletionParams);
 
-            if (deleteResult.Result == "ok" || deleteResult.Result == "not found") 
+            if (deleteResult.Result == "ok" || deleteResult.Result == "not found")
             {
                 _logger.LogInformation("Deleted image with Public ID: {PublicId}. Result: {Result}", publicId, deleteResult.Result);
                 return Ok("File deleted successfully");

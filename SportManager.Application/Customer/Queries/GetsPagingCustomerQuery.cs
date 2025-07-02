@@ -43,10 +43,10 @@ public class GetsPagingQueryHandler(IReadOnlyApplicationDbContext dbContext)
                 },
                 Roles = customer.User.UserRoles != null
                     ? customer.User.UserRoles.Select(ur => new RoleView
-                 {
-                     Id = ur.Role.Id,
-                     Name = ur.Role.Name
-                 }).ToList()
+                    {
+                        Id = ur.Role.Id,
+                        Name = ur.Role.Name
+                    }).ToList()
                 : new List<RoleView>(),
 
                 ShippingAddresses = customer.ShippingAddresses != null && customer.ShippingAddresses.Any() ?

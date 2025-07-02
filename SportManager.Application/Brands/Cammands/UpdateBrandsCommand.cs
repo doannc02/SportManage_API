@@ -14,7 +14,7 @@ public class UpdateBrandCommand : BrandDto, IRequest<Unit>
     }
 }
 
-public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand , Unit>
+public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, Unit>
 {
     private readonly IApplicationDbContext _dbContext;
 

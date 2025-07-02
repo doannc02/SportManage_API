@@ -33,8 +33,8 @@ public class UpdateCategoryCommandHandler(IApplicationDbContext applicationDbCon
         }
 
         // Cập nhật thông tin customer
-        
-        
+
+
         //customer.User.Email = request.Email;
         //customer.User.Username = request.UserName;
 

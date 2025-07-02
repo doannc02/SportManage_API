@@ -6,17 +6,17 @@ using System.ComponentModel.DataAnnotations;
 namespace SportManager.Application.CustomerTickets.Models;
 
 public class TicketCategoryDto
- {
-        [Required]
-        [MaxLength(100)]
-        public string Name { get; set; }
+{
+    [Required]
+    [MaxLength(100)]
+    public string Name { get; set; }
 
-        [MaxLength(500)]
-        public string Description { get; set; }
+    [MaxLength(500)]
+    public string Description { get; set; }
 
-        [Required]
-        public bool IsActive { get; set; } = true;
- }
+    [Required]
+    public bool IsActive { get; set; } = true;
+}
 
 public class TicketCategoryResponse : BaseModelResopnse
 {

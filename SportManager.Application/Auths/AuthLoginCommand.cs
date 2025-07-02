@@ -56,7 +56,7 @@ public class AuthLoginHandler : IRequestHandler<LoginRequest, LoginResponse>
             throw new ApplicationException("Username or password is incorrect");
 
         // Tạo access token
-        var accessToken = await _jwtService.GenerateTokenAsync(userId, username,customerId, roles);
+        var accessToken = await _jwtService.GenerateTokenAsync(userId, username, customerId, roles);
 
         // Tạo refresh token
         var refreshToken = await _tokenService.CreateRefreshTokenAsync(userId);
