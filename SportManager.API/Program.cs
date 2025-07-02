@@ -5,16 +5,15 @@ using System.Text.Json.Serialization;
 using SportManager.API.Middleware;
 using SportManager.API;
 using Microsoft.Extensions.FileProviders;
-using SportManager.Application.ChatHubs.Models;
-using SportManager.Application.ChatHubs;
 
-var options = new WebApplicationOptions
-{
-    ContentRootPath = Directory.GetCurrentDirectory(),
-    WebRootPath = "wwwroot"
-};
 
-var builder = WebApplication.CreateBuilder(options);
+//var options = new WebApplicationOptions
+//{
+//    ContentRootPath = Directory.GetCurrentDirectory(),
+//    WebRootPath = "wwwroot"
+//};
+
+var builder = WebApplication.CreateBuilder();
 // CORS
 builder.Services.AddCors(options =>
 {
@@ -99,14 +98,14 @@ using (var scope = app.Services.CreateScope())
 
 // Configure the HTTP request pipeline.
 
-app.UseStaticFiles();
+//app.UseStaticFiles();
 
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(builder.Environment.WebRootPath, "uploads")),
-    RequestPath = "/uploads"
-});
+//app.UseStaticFiles(new StaticFileOptions
+//{
+//    FileProvider = new PhysicalFileProvider(
+//        Path.Combine(builder.Environment.WebRootPath, "uploads")),
+//    RequestPath = "/uploads"
+//});
 
 
 app.MapHub<ChatHub>("/chatHub");
