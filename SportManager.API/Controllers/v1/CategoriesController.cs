@@ -15,7 +15,7 @@ public class CategoriesController : ApiControllerBase
 {
     [HttpGet("{id:guid}")]
     public async Task<GetQueryByIdQueryResponse> GetDetail(
-       [FromQuery]Guid  id,
+       [FromQuery] Guid id,
        CancellationToken cancellationToken)
        => await Mediator.Send(new GetCategoryByIdQuery(id), cancellationToken);
 
@@ -27,7 +27,7 @@ public class CategoriesController : ApiControllerBase
        => await Mediator.Send(request, cancellationToken);
 
     [HttpPost]
-    public async Task<CreateCategoryResponse> Create(CreateCategoryCommand command, 
+    public async Task<CreateCategoryResponse> Create(CreateCategoryCommand command,
         CancellationToken cancellationToken)
         => await Mediator.Send(command, cancellationToken);
     [HttpPut]

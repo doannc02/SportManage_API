@@ -11,7 +11,7 @@ public class PlaceOrderCommandHandler(
     IApplicationDbContext _dbContext,
     IPushNotificationService _pushNotificationService,
     ICurrentUserService _currentUser,
-    IMediator _mediator) 
+    IMediator _mediator)
     : IRequestHandler<PlaceOrderCommand, Guid>
 {
     public async Task<Guid> Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
@@ -128,14 +128,14 @@ public class PlaceOrderCommandHandler(
         }
 
         // Tạo payment
-    
-            var payment = new Payment
-            {
-                Method = request.PaymentMethod,
-                Status = request.PaymentMethod == PaymentMethod.CashOnDelivery ? PaymentStatus.Pending : PaymentStatus.Completed,
-                Order = order
-            };
-        
+
+        var payment = new Payment
+        {
+            Method = request.PaymentMethod,
+            Status = request.PaymentMethod == PaymentMethod.CashOnDelivery ? PaymentStatus.Pending : PaymentStatus.Completed,
+            Order = order
+        };
+
 
         order.Payment = payment;
 

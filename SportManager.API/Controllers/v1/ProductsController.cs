@@ -15,7 +15,7 @@ namespace SportManager.API.Controllers.v1;
 [ApiController]
 public class ProductsController : ApiControllerBase
 {
-   // [Authorize(Policy = "ADMIN")]
+    // [Authorize(Policy = "ADMIN")]
     [HttpPost]
     public async Task<CreateProductResponse> Create(CreateProductCommand input, CancellationToken cancellationToken)
     {
@@ -50,7 +50,7 @@ public class ProductsController : ApiControllerBase
 
     //[Authorize(Policy = "ADMIN")]
     [HttpPut]
-    public async Task<UpdateCommandResponse> Update([FromBody]UpdateProductCommand input, CancellationToken cancellationToken)
+    public async Task<UpdateCommandResponse> Update([FromBody] UpdateProductCommand input, CancellationToken cancellationToken)
     {
         var result = await Mediator.Send(input, cancellationToken);
         //  await DbContextTransaction.CommitAsync(cancellationToken);
@@ -80,8 +80,8 @@ public class ProductsController : ApiControllerBase
     public async Task<PageResult<ProductPageResponse>> Get(
         [FromQuery] GetsPagingQuery request,
         CancellationToken cancellationToken)
-        => await Mediator.Send(request, cancellationToken); 
-    
+        => await Mediator.Send(request, cancellationToken);
+
     [AllowAnonymous]
     [HttpGet("variant-paging")]
     public async Task<PaginatedProductVariantsResult> GetVariants(

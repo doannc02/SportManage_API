@@ -51,12 +51,14 @@ public class UsersController : ApiControllerBase
                 u.Id,
                 u.Username,
                 u.Email,
-                Roles = u.UserRoles.Select(k => new 
+                u.Avatar,
+                Phone = u.CustomerProfile != null ? u.CustomerProfile.Phone : "",
+                Roles = u.UserRoles.Select(k => new
                 {
-                    RoleName = k.Role.Name  
-                }).ToList()  
+                    RoleName = k.Role.Name
+                }).ToList()
             })
-            .FirstOrDefaultAsync();  
+            .FirstOrDefaultAsync();
 
         return Ok(user);
     }
@@ -208,7 +210,7 @@ public class UsersController : ApiControllerBase
             return BadRequest("FCM Token không được rỗng.");
         }
 
-      
+
         if (!Guid.TryParse(_userService.UserId, out Guid currentUserId))
         {
             return Unauthorized("Không thể xác định người dùng hiện tại.");

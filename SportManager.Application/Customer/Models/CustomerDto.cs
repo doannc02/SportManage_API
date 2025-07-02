@@ -9,9 +9,10 @@ public class CustomerDto
     public int? Age { get; set; }
     public string? Phone { get; set; }
     public string? Address { get; set; }
+    public string? AvatarUrl { get; set; }
     public string? Email { get; set; }
     public string? UserName { get; set; }
-    public string? Password { get; set; }  
+    public string? Password { get; set; }
     public List<ShippingAddressView>? ShippingAddresses { get; set; } = new List<ShippingAddressView>();
 }
 
@@ -31,4 +32,3 @@ public class ShippingAddressView
     public bool? IsDefault { get; set; }
 }
 
-    

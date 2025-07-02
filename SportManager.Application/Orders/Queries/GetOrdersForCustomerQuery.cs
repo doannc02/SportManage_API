@@ -44,7 +44,7 @@ public class GetCustomerOrdersQueryHandler : IRequestHandler<GetCustomerOrdersQu
             .Include(o => o.OrderItems)
             .ThenInclude(oi => oi.ProductVariant)
             .Include(o => o.Voucher)
-            .Where(o => o.CustomerId == Guid.Parse(customerId)) 
+            .Where(o => o.CustomerId == Guid.Parse(customerId))
             .AsQueryable();
 
         if (!string.IsNullOrEmpty(request.KeyWord))
@@ -93,7 +93,7 @@ public class GetCustomerOrdersQueryHandler : IRequestHandler<GetCustomerOrdersQu
             Total = o.CalculateSubTotal() - o.DiscountAmount,
             Payment = o.Payment != null ? new PaymentOderDto
             {
-                Method = o.Payment.Method, 
+                Method = o.Payment.Method,
                 Status = o.Payment.Status,
                 PaidAt = o.Payment.PaidAt
             } : null,

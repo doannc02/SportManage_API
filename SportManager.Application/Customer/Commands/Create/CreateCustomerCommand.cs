@@ -89,30 +89,31 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
         {
             Email = request.Email,
             Username = request.UserName,
+            Avatar = request?.AvatarUrl,
             PasswordHash = _passwordHasher.HashPassword(request.Password, request.UserName),
             CustomerProfile = new Domain.Entity.Customer
             {
-                Gender = (Gender)request.Gender,
+                Gender = (Gender)request.Gender!,
                 Age = request.Age,
-                Phone = request.Phone.Trim(),
-                Address = request.Address.Trim(),
+                Phone = request.Phone!.Trim(),
+                Address = request.Address!.Trim(),
                 ShippingAddresses = request.ShippingAddresses != null && request.ShippingAddresses.Any() ? request.ShippingAddresses
                 .Select(
                     c => new ShippingAddress
                     {
-                     IsDefault = c.IsDefault,
-                     AddressLine = c.AddressLine,
-                     Ward = c.Ward,
-                     City = c.City,
-                     CityId = c.CityId,
-                     Country = c.Country,
-                     CountryId = c.CountryId,
-                     District = c.District,
-                     Phone = c.Phone.Trim(),
-                     PostalCode = c.PostalCode,
-                     RecipientName = c.RecipientName,
+                        IsDefault = c.IsDefault,
+                        AddressLine = c.AddressLine,
+                        Ward = c.Ward,
+                        City = c.City,
+                        CityId = c.CityId,
+                        Country = c.Country,
+                        CountryId = c.CountryId,
+                        District = c.District,
+                        Phone = c.Phone.Trim(),
+                        PostalCode = c.PostalCode,
+                        RecipientName = c.RecipientName,
                     }
-                    
+
                     ).ToList() : Array.Empty<ShippingAddress>()
             },
             UserRoles = new List<UserRole>

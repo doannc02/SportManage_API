@@ -96,16 +96,16 @@ public class ChatHub : Hub
 
 
         var message = new Message
-            {
-                MessageType = messageType,
-                ConversationId = conversationId,
-                SenderId = userId,
-                Content = content,
-                SentAt = DateTime.UtcNow
-            };
+        {
+            MessageType = messageType,
+            ConversationId = conversationId,
+            SenderId = userId,
+            Content = content,
+            SentAt = DateTime.UtcNow
+        };
 
-            _dbContext.Messages.Add(message);
-            await _dbContext.SaveChangesAsync();
+        _dbContext.Messages.Add(message);
+        await _dbContext.SaveChangesAsync();
 
         Console.WriteLine($"Sending message to group {conversationId}");
         await Clients.Group(conversationId.ToString()).SendAsync("ReceiveMessage", message);

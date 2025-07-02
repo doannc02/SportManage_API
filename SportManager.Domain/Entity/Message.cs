@@ -35,7 +35,7 @@ public class Message : EntityBase<Guid>
     public string Content { get; set; }
     public DateTime SentAt { get; set; }
     public bool IsSystemMessage { get; set; } // Đánh dấu tin nhắn hệ thống (ví dụ: "Admin đã tham gia cuộc trò chuyện")
-    public  MessageType MessageType  {get; set;} 
+    public MessageType MessageType { get; set; }
     public virtual Conversation Conversation { get; set; }
     public virtual User Sender { get; set; }
     public virtual ICollection<MessageStatus> MessageStatuses { get; set; } = new List<MessageStatus>();

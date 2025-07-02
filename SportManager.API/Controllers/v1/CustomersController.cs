@@ -20,7 +20,7 @@ public class CustomersController : ApiControllerBase
     public async Task<CreateCustomerResponse> Create(CreateCustomerCommand input, CancellationToken cancellationToken)
     {
         var result = await Mediator.Send(input, cancellationToken);
-      //  await DbContextTransaction.CommitAsync(cancellationToken);
+        //  await DbContextTransaction.CommitAsync(cancellationToken);
         return result;
     }
 
@@ -28,15 +28,15 @@ public class CustomersController : ApiControllerBase
     public async Task<UpdateCustomerResponse> Update(UpdateCustomerCommand input, CancellationToken cancellationToken)
     {
         var result = await Mediator.Send(input, cancellationToken);
-      //  await DbContextTransaction.CommitAsync(cancellationToken);
+        //  await DbContextTransaction.CommitAsync(cancellationToken);
         return result;
     }
-    
+
     [HttpPut("assign-roles")]
     public async Task<Unit> UpdateRole(UpdateRolesCommand input, CancellationToken cancellationToken)
     {
         var result = await Mediator.Send(input, cancellationToken);
-      //  await DbContextTransaction.CommitAsync(cancellationToken);
+        //  await DbContextTransaction.CommitAsync(cancellationToken);
         return result;
     }
 
@@ -44,7 +44,7 @@ public class CustomersController : ApiControllerBase
     public async Task<int> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var result = await Mediator.Send(new DeleteCustomerCommand(id), cancellationToken);
-      //  await DbContextTransaction.CommitAsync(cancellationToken);
+        //  await DbContextTransaction.CommitAsync(cancellationToken);
         return result;
     }
 

@@ -81,7 +81,7 @@ public class TokenService : ITokenService
 
         // Revoke old refresh token
         storedToken.IsRevoked = true;
-       // storedToken.RevokedAt = DateTime.UtcNow;
+        // storedToken.RevokedAt = DateTime.UtcNow;
         storedToken.RevokedReason = "Replaced by new token";
 
         var newAccessToken = await _jwtService.GenerateTokenAsync(userId!, username!, customerId, roles);

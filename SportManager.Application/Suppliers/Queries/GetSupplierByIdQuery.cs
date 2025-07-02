@@ -54,7 +54,7 @@ public class GetSupplierByIdQueryHandler : IRequestHandler<GetSupplierByIdQuery,
 
         if (supplier == null)
         {
-            throw new ApplicationException(ErrorCode.NOT_FOUND,"Supplier");
+            throw new ApplicationException(ErrorCode.NOT_FOUND, "Supplier");
         }
 
         return supplier;

@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using CloudinaryDotNet; 
-using Microsoft.Extensions.Configuration; 
-using Microsoft.Extensions.DependencyInjection; 
-using Microsoft.AspNetCore.Hosting; 
-using Microsoft.Extensions.Logging; 
+using CloudinaryDotNet;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace SportManager.API;
 

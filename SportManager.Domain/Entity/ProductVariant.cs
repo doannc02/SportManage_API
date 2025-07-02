@@ -15,7 +15,7 @@ public class ProductVariant : EntityBase<Guid>
     public string? Description { get; set; }
     public string[]? Images { get; set; }
     public string Size { get; set; }
-    public string[]? Attribute { get; set;}
+    public string[]? Attribute { get; set; }
 
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }

@@ -6,7 +6,7 @@ namespace SportManager.Application.Carts.Commands.Update;
 public class UpdateCartQuantityCommand : IRequest<bool>
 {
     public Guid CartItemId { get; set; }
-    public int  Quantity { get; set; }
+    public int Quantity { get; set; }
 }
 
 internal class UpdateCartQtyValidator : AbstractValidator<UpdateCartQuantityCommand>
@@ -42,7 +42,7 @@ public class UpdateCartQtyCommandHandler(
             throw new ApplicationException("Không tìm thấy sản phẩm trong giỏ hàng.");
 
         var stockQtyVariant = findCartItem.ProductVariant.StockQuantity;
-        if(request.Quantity > stockQtyVariant)
+        if (request.Quantity > stockQtyVariant)
             throw new ApplicationException("Vượt quá số lượng hàng trong kho!.");
 
         if (request.Quantity == 0)

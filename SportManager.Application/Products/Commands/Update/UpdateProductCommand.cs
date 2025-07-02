@@ -126,7 +126,7 @@ public class UpdateProductCommandHandler(IApplicationDbContext _dbContext)
         await _dbContext.SaveChangesAsync(cancellationToken);
         return new UpdateCommandResponse
         {
-            Id = product.Id     
+            Id = product.Id
         };
     }
 }

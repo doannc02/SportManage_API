@@ -37,6 +37,7 @@ public class GetCurrentCustomerQueryHandler(IReadOnlyApplicationDbContext applic
             Age = customer.Age ?? null,
             Gender = customer.Gender,
             Phone = customer.Phone,
+            AvatarUrl = customer.User?.Avatar,
             User = new UserView
             {
                 Id = customer.User.Id,

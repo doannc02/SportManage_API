@@ -20,7 +20,7 @@ public class AuthService : IAuthService
         _logger = logger;
     }
 
-    public async Task<(bool Success, string? UserId, string? Username,string? CustomerId, int totalCartItems, IEnumerable<string>? Roles)> ValidateUserAsync(LoginRequest request)
+    public async Task<(bool Success, string? UserId, string? Username, string? CustomerId, int totalCartItems, IEnumerable<string>? Roles)> ValidateUserAsync(LoginRequest request)
     {
         var user = await _dbContext.Users
             .AsNoTracking()
@@ -28,7 +28,7 @@ public class AuthService : IAuthService
             .FirstOrDefaultAsync(u => u.Username == request.Username);
 
         if (user == null)
-            return (false, null, null, null,0, null);
+            return (false, null, null, null, 0, null);
 
         var isPasswordValid = VerifyPasswordHash(request.Password, user.PasswordHash, user.Username);
 

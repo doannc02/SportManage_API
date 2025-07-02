@@ -4,7 +4,8 @@ using SportManager.Application.VoucherManagements.Models;
 
 namespace SportManager.Application.VoucherManagements.Queries;
 
-public class GetAllVouchersQuery : IRequest<PageResult<VoucherDto>> {
+public class GetAllVouchersQuery : IRequest<PageResult<VoucherDto>>
+{
     public string? Keyword { get; set; }
     public DateTime? StartDateFrom { get; set; }
     public DateTime? EndDateTo { get; set; }
